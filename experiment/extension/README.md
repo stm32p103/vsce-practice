@@ -1,6 +1,6 @@
-# angular-view README
+# experiment README
 
-This is the README for your extension "angular-view". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "experiment". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 

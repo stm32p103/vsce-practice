@@ -1,7 +1,7 @@
 {
 	"name": "experiment",
 	"displayName": "experiment",
-	"description": "sample",
+	"description": "Experimental Extension.",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.44.0"
@@ -10,14 +10,14 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:experiment.open-webview"
+		"onCommand:experiment.helloWorld"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "experiment.open-webview",
-				"title": "Open Webview"
+				"command": "experiment.helloWorld",
+				"title": "Hello World"
 			}
 		]
 	},

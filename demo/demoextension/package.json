@@ -12,16 +12,41 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:demoextension.helloWorld"
+        "onView:demo.list",
+		"onCommand:*"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "demoextension.helloWorld",
-				"title": "Hello World"
+				"command": "demo.helloWorld",
+				"title": "Hello World",
+				"icon": "$(alert)"
+			},
+			{
+				"command": "demo.open",
+				"title": "Open Demo",
+				"category": "Demo",
+				"icon": "$(arrow-right)"
 			}
-		]
+		],
+		"views": {
+			"explorer": [
+				{
+					"id": "demo.list",
+					"name": "Demo List"
+				}
+			]
+		},
+		"menus": {
+			"view/item/context": [
+				{
+					"command": "demo.open",
+					"when": "view == 'demo.list'",
+					"group": "inline"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

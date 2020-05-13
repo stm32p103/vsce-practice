@@ -7,29 +7,25 @@ import { DemoProvider, Demo, DemoPanelManager } from './demo-navigation';
 // your extension is activated the very first time the command is executed
 
 export function activate(context: vscode.ExtensionContext) {
-	const mng = new DemoPanelManager(context);
-	mng.load();	
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
+	// Hello world コマンド
 	console.log('Congratulations, your extension "demoextension" is now active!');
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('demo.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
 		vscode.window.showInformationMessage('Hello World from DemoExtension!');
 	});
 	
+	// デモ画面を開くコマンド
+	const mng = new DemoPanelManager(context);
+	mng.load();	
 	vscode.commands.registerCommand('demo.open', (demo: Demo) => {
 		vscode.window.showInformationMessage(`${demo.title}`);
 		mng.open(demo.id);
 	});
 
+	// ツリービュー
 	const demoProvder = new DemoProvider();
-
 	vscode.window.registerTreeDataProvider('demo.list', new DemoProvider());
+
+
 	context.subscriptions.push(disposable);
 }
 

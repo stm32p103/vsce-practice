@@ -47,3 +47,38 @@ export class DemoProvider implements vscode.TreeDataProvider<Demo> {
 		return new vscode.TreeItem( `${element.title}: ${element.id}`, collapsibleState );
 	}
 }
+
+import * as path from 'path';
+import * as fs from 'fs';
+export class DemoPanelManager {
+    private panel: vscode.WebviewPanel | undefined;
+    private html: string = '';
+    private rootPath: string = '';
+    constructor( private context: vscode.ExtensionContext ) {}
+
+    // 適当
+    load() {
+        this.rootPath = path.join(this.context.extensionPath, 'public');
+        const htmlPath = path.join(this.rootPath, 'index.html');
+        const rootUri = vscode.Uri.file(this.rootPath);
+        const tmp = fs.readFileSync( htmlPath, { encoding: 'utf8' } );
+        this.html = tmp.replace('<base href="/">', `<base href="${rootUri.with({scheme:'vscode-resource'}).toString()}/">`);
+    }
+    open(id: string) {
+        if(!this.panel) {
+            this.panel = vscode.window.createWebviewPanel( 'demo.view', 'Demo', vscode.ViewColumn.One,{
+                localResourceRoots: [ vscode.Uri.file(this.rootPath) ],
+                enableScripts: true,
+                retainContextWhenHidden: true
+            } );
+            this.panel.webview.html = this.html;
+            this.panel.onDidDispose( () => {
+                this.panel = undefined;
+            } );
+        } else {
+            this.panel.reveal();
+        }
+        
+        this.panel.webview.postMessage( id );
+    }
+}

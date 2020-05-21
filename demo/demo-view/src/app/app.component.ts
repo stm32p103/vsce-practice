@@ -20,12 +20,19 @@ export class AppComponent implements OnDestroy, OnInit {
   constructor( private api: VsCodeService ) {
   }
 
+  reopen() {
+    this.api.post({type:'reopen'});
+  }
+  calc() {
+    this.api.post({type:'calc'});
+  }
+
   ngOnDestroy() {
     this.subscripton.unsubscribe();
   }
   
   ngOnInit() {
-    this.message = 'initialized.';
+    this.message = 'aaaa.';
     this.subscripton = this.api.message$.subscribe( msg => {
       const target = map[msg];
       if( target ) {
@@ -33,6 +40,6 @@ export class AppComponent implements OnDestroy, OnInit {
       }
       this.message = msg;
     } );
-    this.api.post('Webview is ready.');
+    this.api.post({type:'hello'});
   }
 }

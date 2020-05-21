@@ -13,3 +13,7 @@ export class SamplesViewComponent implements OnInit {
   }
 
 }
+
+interface MySheet {
+  
+}

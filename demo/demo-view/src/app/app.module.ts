@@ -7,6 +7,9 @@ import { VsCodeService } from './services';
 import { ComponentOutletComponent } from './components';
 import { SidebarModule } from 'primeng/sidebar';
 import { PanelModule } from 'primeng/panel';
+import {ToggleButtonModule} from 'primeng/togglebutton';
+import {ButtonModule} from 'primeng/button';
+import {TooltipModule} from 'primeng/tooltip';
 import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   exports: [
@@ -21,6 +24,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     SidebarModule,
+    ToggleButtonModule,
+    ButtonModule,
+    TooltipModule,
     PanelModule
   ],
   providers: [VsCodeService],

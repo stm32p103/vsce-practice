@@ -1,12 +1,9 @@
 <div class="p-grid">
-    <div class="p-col-2">
-        <p-panel header="Title">
-            <button (click)="reopen()">Reopen</button>
-        </p-panel>
-    </div>
-    <div class="p-col-10">
-        <p-panel header="Title">
-            <component-outlet [component]="view"></component-outlet>
-        </p-panel>
+    <div class="p-col-12">
+    <h1>Demo</h1>
+        <p-button label="Reopen" (click)="reopen()"></p-button>
+        <p-button label="Hello World!" (click)="hello()"></p-button>
+        <hr>
+        <component-outlet [component]="view"></component-outlet>
     </div>
 </div>

@@ -1,0 +1,17 @@
+{
+	"items": [
+		{ "key": "data-1", "title": "Sample Data", "descripton": "setumei", "value": "a" },
+		{ "key": "data-2", "title": "Sample Data", "descripton": "setumei", "value": "b" },
+		{ "key": "data-3", "title": "Sample Data", "descripton": "setumei", "value": "c" },
+		{ "key": "data-4", "title": "Sample Data", "descripton": "setumei", "value": "d" }
+	],
+	"coords": [
+		{"x": "0.0", "y": "100.0"},
+		{"x": "100.0", "y": "20.0"},
+		{"x": "300.0", "y": "300.0"},
+		{"x": "400.0", "y": "20.0"},
+		{"x": "500.0", "y": "300.0"},
+		{"x": "600.0", "y": "100.0"},
+		{"x": "700.0", "y": "500.0"}
+	]
+}

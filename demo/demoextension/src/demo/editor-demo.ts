@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
+import { DemoDispatcher } from './demo-dispatcher';
 
 
 interface Item {
@@ -49,9 +50,9 @@ export class DemoDocument {
             this.items = items;
         }
 
-        if(json.coord instanceof Array) {
+        if(json.coords instanceof Array) {
             const coords: Coordinate[] = [];
-            for(let coord of json.coord) {
+            for(let coord of json.coords) {
                 const x = Number( coord.x );
                 const y = Number( coord.y );
                 
@@ -64,7 +65,7 @@ export class DemoDocument {
     toJSON(): any {
         return {
             items: this.items,
-            coord: this.coords
+            coords: this.coords
         };
     }
 }
@@ -109,9 +110,15 @@ export class EditorProvider implements vscode.CustomTextEditorProvider {
             enableScripts: true
         };
 
+        const dispatcher = new DemoDispatcher();
+        dispatcher.register('demo.reopen', () => vscode.commands.executeCommand('demo.reopen-view'));
+        dispatcher.register('demo.hello', () => vscode.commands.executeCommand('demo.helloworld'));
         // 保存したらViewに教える
-        vscode.workspace.onDidSaveTextDocument( event => {
-            const text = document.getText();
+        vscode.workspace.onDidChangeTextDocument( event => {
+            const text = event.document.getText();
+            if(event.document.uri.toString() !==  document.uri.toString()) {
+                return;
+            }
             let json = {};
             if (text.trim().length !== 0) {
                 try {
@@ -121,27 +128,35 @@ export class EditorProvider implements vscode.CustomTextEditorProvider {
                 }
             }
             data.fromJSON(json);
+            console.log('update!');
             webviewPanel.webview.postMessage( { type: 'updateAll', data: data.toJSON() } );
         } );
 
         // Viewの変更を反映する
         webviewPanel.webview.onDidReceiveMessage( (msg: Message) => {
             switch(msg.type) {
-            case 'demo.set-value':
+            case 'editor.set-value':
                 data.setValue(msg.data.key, msg.data.value);
                 break;
-            case 'demo.add-coord':
+            case 'editor.add-coord':
                 data.addCoord(msg.data.x, msg.data.y);
                 break;
-            case 'demo.save':
+            case 'editor.save':
                 const edit = new vscode.WorkspaceEdit();
                 const json = data.toJSON();
                 edit.replace(
                     document.uri,
                     new vscode.Range(0, 0, document.lineCount, 0),
                     JSON.stringify(json, null, 2));
-                data.toJSON();
+                vscode.workspace.applyEdit(edit);
+                break;
+            case 'editor.ready':
+                console.log('editor.ready');
+                webviewPanel.webview.postMessage( { type: 'updateAll', data: data.toJSON() } );
+                break;
             }
+            // とりあえずつけた
+            dispatcher.dispatch(msg);
         } );
 
         const text = document.getText();
@@ -154,7 +169,8 @@ export class EditorProvider implements vscode.CustomTextEditorProvider {
             }
         }
         
+        webviewPanel.webview.postMessage( {type: 'demo.goto', data: { id: 'editor' } } );
+
         data.fromJSON(json);
-        webviewPanel.webview.postMessage( {type: 'demogoto', data: { id: 'EditorView', data: data.toJSON() } } );
     }
 }

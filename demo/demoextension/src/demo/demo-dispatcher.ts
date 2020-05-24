@@ -16,6 +16,7 @@ export class DemoDispatcher {
     }
 
     dispatch(msg: Message) {
+        console.log(msg);
         const handler = this.handlers[msg.type];
         if(handler) {
             handler(msg);

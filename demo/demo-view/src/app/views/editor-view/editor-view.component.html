@@ -1,1 +1,32 @@
-<p>editor-view works!</p>
+<h2>項目</h2>
+<p>チェックシートのテンプレートをサーバからダウンロードするようにしておけば、常に最新のチェックシートが使える。JSONというデータ形式なので、テキストの比較ができるしデータを活用できる。</p>
+<!-- Dynamic component loader の弊害でngForが使えないみたい。要対策。今はデモなので直打ち。 -->
+<div class="p-grid">
+    <div class="p-col-12">
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="pi pi-pencil" style="line-height: 1.25;"></i></span>
+            <input type="text" pInputText placeholder="{{items[0].title}}" [(value)]="items[0].value">
+        </div>
+    </div>
+    <div class="p-col-12">
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="pi pi-pencil" style="line-height: 1.25;"></i></span>
+            <input type="text" pInputText placeholder="{{items[1].title}}" [(value)]="items[2].value">
+        </div>
+    </div>
+    <div class="p-col-12">
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="pi pi-pencil" style="line-height: 1.25;"></i></span>
+            <input type="text" pInputText placeholder="{{items[2].title}}" [(value)]="items[2].value">
+        </div>
+    </div>
+    <div class="p-col-12">
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="pi pi-pencil" style="line-height: 1.25;"></i></span>
+            <input type="text" pInputText placeholder="{{items[3].title}}" [(value)]="items[3].value">
+        </div>
+    </div>
+</div>
+<hr>
+<h2>グラフ</h2>
+<p>データを図示することも可能。イベント処理を実装すれば、画面から操作もできるようになる。</p>

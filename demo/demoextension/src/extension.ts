@@ -13,8 +13,8 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 	
 	const dispatcher = new DemoDispatcher();
-	dispatcher.register('reopen', () => vscode.commands.executeCommand('demo.reopen-view'));
-	dispatcher.register('hello', () => vscode.commands.executeCommand('demo.helloworld'));
+	dispatcher.register('demo.reopen', () => vscode.commands.executeCommand('demo.reopen-view'));
+	dispatcher.register('demo.hello', () => vscode.commands.executeCommand('demo.helloworld'));
 
 	// デモ画面を開くコマンド
 	const mng = new DemoPanelManager(context, dispatcher);

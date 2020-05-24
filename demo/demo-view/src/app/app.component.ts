@@ -22,10 +22,11 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   reopen() {
-    this.api.post({type:'reopen'});
+    this.api.post({type:'demo.reopen'});
   }
-  calc() {
-    this.api.post({type:'calc'});
+  
+  hello() {
+    this.api.post({type:'demo.hello'});
   }
 
   ngOnDestroy() {

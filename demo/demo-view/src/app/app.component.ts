@@ -2,10 +2,11 @@ import { Component, OnDestroy, OnInit, Type } from '@angular/core';
 import { VsCodeService } from './services'
 import { Subscription } from 'rxjs';
 
-import { HelloViewComponent, SamplesViewComponent } from './views';
+import { HelloViewComponent, SamplesViewComponent, EditorViewComponent } from './views';
 const map = {
   'samples': SamplesViewComponent,
-  'hello': HelloViewComponent
+  'hello': HelloViewComponent,
+  'editor': EditorViewComponent
 };
 
 @Component({
@@ -32,14 +33,16 @@ export class AppComponent implements OnDestroy, OnInit {
   }
   
   ngOnInit() {
-    this.message = 'aaaa.';
+    this.message = '';
     this.subscripton = this.api.message$.subscribe( msg => {
-      const target = map[msg];
-      if( target ) {
-        this.view = target;
+      switch(msg.type) {
+      case 'demo.goto':
+        const target = map[msg.data.id];
+        if( target ) {
+          this.view = target;
+        }
+        break;
       }
-      this.message = msg;
     } );
-    this.api.post({type:'hello'});
   }
 }

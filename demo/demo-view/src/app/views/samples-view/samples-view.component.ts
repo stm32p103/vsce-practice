@@ -11,7 +11,6 @@ export class SamplesViewComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }
 
 interface MySheet {

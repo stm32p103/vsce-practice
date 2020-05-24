@@ -50,11 +50,15 @@ export class DemoProvider implements vscode.TreeDataProvider<Demo> {
 
 import * as path from 'path';
 import * as fs from 'fs';
-export class DemoPanelManager {
+import { DemoDispatcher } from './demo/demo-dispatcher';
+
+// 色々詰め込み。良くないので見直すこと。
+export class DemoPanelManager{
     private panel: vscode.WebviewPanel | undefined;
     private html: string = '';
     private rootPath: string = '';
-    constructor( private context: vscode.ExtensionContext ) {}
+    private currentId: string = '';
+    constructor( private context: vscode.ExtensionContext, private dipsatcher: DemoDispatcher ) {}
 
     // 適当
     load() {
@@ -64,6 +68,12 @@ export class DemoPanelManager {
         const tmp = fs.readFileSync( htmlPath, { encoding: 'utf8' } );
         this.html = tmp.replace('<base href="/">', `<base href="${rootUri.with({scheme:'vscode-resource'}).toString()}/">`);
     }
+
+    reload() {
+        this.panel?.dispose();
+        this.open(this.currentId);
+    }
+
     open(id: string) {
         if(!this.panel) {
             this.panel = vscode.window.createWebviewPanel( 'demo.view', 'Demo', vscode.ViewColumn.One,{
@@ -72,13 +82,20 @@ export class DemoPanelManager {
                 retainContextWhenHidden: true
             } );
             this.panel.webview.html = this.html;
+
+            const subscription = this.panel.webview.onDidReceiveMessage( (msg) => {
+                this.dipsatcher.dispatch(msg);
+            } );
+
             this.panel.onDidDispose( () => {
                 this.panel = undefined;
+                subscription.dispose();
             } );
         } else {
             this.panel.reveal();
         }
         
-        this.panel.webview.postMessage( id );
+        this.panel.webview.postMessage( { type: 'demo.goto', data: { id: id } } );
+        this.currentId = id;
     }
 }

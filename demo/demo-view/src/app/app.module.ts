@@ -7,7 +7,7 @@ import { VsCodeService } from './services';
 import { ComponentOutletComponent } from './components';
 import { SidebarModule } from 'primeng/sidebar';
 import { PanelModule } from 'primeng/panel';
-import { ReactiveFormsModule }          from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   exports: [
     ComponentOutletComponent
